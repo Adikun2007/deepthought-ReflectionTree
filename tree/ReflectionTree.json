@@ -1,0 +1,202 @@
+{
+  "nodes": [
+    {
+      "id": "START",
+      "type": "start",
+      "text": "Good evening. Take a moment to think about your day — not everything, just what stands out."
+    },
+    {
+      "id": "A1_DAY_TONE",
+      "parentId": "START",
+      "type": "question",
+      "text": "If you had to sum up today, how did it feel?",
+      "options": ["Productive", "Mixed", "Draining", "Frustrating"]
+    },
+    {
+      "id": "A1_TONE_ROUTER",
+      "parentId": "A1_DAY_TONE",
+      "type": "decision",
+      "rules": [
+        { "if": ["Productive", "Mixed"], "goto": "A1_SUCCESS_SOURCE" },
+        { "if": ["Draining", "Frustrating"], "goto": "A1_DIFFICULTY_RESPONSE" }
+      ]
+    },
+    {
+      "id": "A1_SUCCESS_SOURCE",
+      "parentId": "A1_TONE_ROUTER",
+      "type": "question",
+      "text": "When something went well today, what do you think helped the most?",
+      "options": [
+        "I planned ahead or thought things through",
+        "I adjusted as things changed",
+        "Others stepped in at the right time",
+        "It just worked out on its own"
+      ],
+      "signals": {
+        "I planned ahead or thought things through": "axis1:internal",
+        "I adjusted as things changed": "axis1:internal",
+        "Others stepped in at the right time": "axis1:external",
+        "It just worked out on its own": "axis1:external"
+      }
+    },
+    {
+      "id": "A1_DIFFICULTY_RESPONSE",
+      "parentId": "A1_TONE_ROUTER",
+      "type": "question",
+      "text": "When things didn’t go as planned, what did you do first?",
+      "options": [
+        "I looked for what I could still control",
+        "I waited to see if someone else would help",
+        "I kept going without changing much",
+        "I felt stuck"
+      ],
+      "signals": {
+        "I looked for what I could still control": "axis1:internal",
+        "I kept going without changing much": "axis1:internal",
+        "I waited to see if someone else would help": "axis1:external",
+        "I felt stuck": "axis1:external"
+      }
+    },
+    {
+      "id": "A1_CHALLENGE_BEHAVIOR",
+      "type": "question",
+      "text": "Think of one challenge today. What did you do next?",
+      "options": [
+        "Tried a different approach",
+        "Asked someone for help or input",
+        "Focused on why it was happening",
+        "Put it off for later"
+      ],
+      "signals": {
+        "Tried a different approach": "axis1:internal",
+        "Asked someone for help or input": "axis1:internal",
+        "Focused on why it was happening": "axis1:external",
+        "Put it off for later": "axis1:external"
+      }
+    },
+    {
+      "id": "A1_REFLECT_INTERNAL",
+      "type": "reflection",
+      "text": "There were moments where you took charge of how things turned out. Even small actions like adjusting your approach show you were shaping the situation, not just reacting to it.",
+      "condition": "axis1=internal"
+    },
+    {
+      "id": "A1_REFLECT_EXTERNAL",
+      "type": "reflection",
+      "text": "A lot of today may have felt driven by circumstances. That’s real. But even then, there were small choices you made — noticing those can help you feel more in control over time.",
+      "condition": "axis1=external"
+    },
+    {
+      "id": "BRIDGE_LOCUS_TO_CONTRIBUTION",
+      "type": "bridge",
+      "text": "Now let’s shift a bit — from how things happened to how you showed up for others."
+    },
+    {
+      "id": "A2_CONTRIBUTION_MOMENT",
+      "type": "question",
+      "text": "Which of these feels closest to how you showed up today?",
+      "options": [
+        "I helped someone even when I didn’t have to",
+        "I focused on getting my own work done",
+        "I felt I deserved more recognition",
+        "I noticed others weren’t doing enough"
+      ],
+      "signals": {
+        "I helped someone even when I didn’t have to": "axis2:contribution",
+        "I focused on getting my own work done": "axis2:neutral",
+        "I felt I deserved more recognition": "axis2:entitlement",
+        "I noticed others weren’t doing enough": "axis2:entitlement"
+      }
+    },
+    {
+      "id": "A2_INTERACTION_FOCUS",
+      "type": "question",
+      "text": "During your interactions, what were you mainly focused on?",
+      "options": [
+        "How I could help others",
+        "Finishing my tasks efficiently",
+        "Whether my work was being noticed",
+        "Whether others were doing their part"
+      ],
+      "signals": {
+        "How I could help others": "axis2:contribution",
+        "Finishing my tasks efficiently": "axis2:neutral",
+        "Whether my work was being noticed": "axis2:entitlement",
+        "Whether others were doing their part": "axis2:entitlement"
+      }
+    },
+    {
+      "id": "A2_REFLECT_CONTRIBUTION",
+      "type": "reflection",
+      "text": "You leaned toward contributing — focusing on what you could give rather than what you might get. That often builds trust and influence over time.",
+      "condition": "axis2=contribution"
+    },
+    {
+      "id": "A2_REFLECT_ENTITLEMENT",
+      "type": "reflection",
+      "text": "Part of your attention was on what you expected in return. That’s natural. But even a small shift toward contribution can change how these situations feel and play out.",
+      "condition": "axis2=entitlement"
+    },
+    {
+      "id": "BRIDGE_CONTRIBUTION_TO_RADIUS",
+      "type": "bridge",
+      "text": "Let’s zoom out a little more — beyond your role to the bigger picture."
+    },
+    {
+      "id": "A3_PERSPECTIVE_SCOPE",
+      "type": "question",
+      "text": "When you think about your day, who does it mostly revolve around?",
+      "options": [
+        "Just me and my responsibilities",
+        "My team",
+        "Someone I helped",
+        "The end user or customer"
+      ],
+      "signals": {
+        "Just me and my responsibilities": "axis3:self",
+        "My team": "axis3:team",
+        "Someone I helped": "axis3:others",
+        "The end user or customer": "axis3:others"
+      }
+    },
+    {
+      "id": "A3_MEANING_SOURCE",
+      "type": "question",
+      "text": "What felt most meaningful by the end of the day?",
+      "options": [
+        "Making progress on my own work",
+        "Helping my team move forward",
+        "Supporting someone else",
+        "Contributing to something bigger"
+      ],
+      "signals": {
+        "Making progress on my own work": "axis3:self",
+        "Helping my team move forward": "axis3:team",
+        "Supporting someone else": "axis3:others",
+        "Contributing to something bigger": "axis3:others"
+      }
+    },
+    {
+      "id": "A3_REFLECT_SELF",
+      "type": "reflection",
+      "text": "Your focus stayed mostly on your own experience. That’s completely valid, but sometimes looking beyond yourself can bring more clarity and reduce pressure.",
+      "condition": "axis3=self"
+    },
+    {
+      "id": "A3_REFLECT_OTHERS",
+      "type": "reflection",
+      "text": "You naturally included others in how you saw your day. That broader view often brings a stronger sense of purpose.",
+      "condition": "axis3=others"
+    },
+    {
+      "id": "FINAL_SUMMARY",
+      "type": "summary",
+      "text": "Looking back, you approached your day with a {axis1} sense of control, focused {axis2} in how you engaged, and had a {axis3} perspective on what mattered. Even small shifts in any of these can change how a day feels."
+    },
+    {
+      "id": "END",
+      "type": "end",
+      "text": "That’s it for today. Come back tomorrow and notice what changes."
+    }
+  ]
+}
